@@ -25,8 +25,8 @@ To explore the solutions:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/LeetCode-Solutions.git
-   cd LeetCode-Solutions
+   git clone https://github.com/your-username/MyLeetCode.git
+   cd MyLeetCode
    ```
 
 2. **Navigate to a specific problem**:
