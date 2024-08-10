@@ -16,7 +16,15 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        
+
+      - name: Sync Leetcode
+        uses: joshcai/leetcode-sync@v1.5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
+          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
+          destination-folder: my-folder
+          
       - name:  Generate Sorted README
         run: 
           ls -1t my-folder > sorted_files.txt
@@ -31,11 +39,3 @@ jobs:
           git add README.md
           git commit -m "Update README with sorted files"
           git push
-   
-      - name: Sync Leetcode
-        uses: joshcai/leetcode-sync@v1.5
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
-          leetcode-session: ${{ secrets.LEETCODE_SESSION }}
-          destination-folder: my-folder
