@@ -25,13 +25,13 @@ jobs:
           leetcode-session: ${{ secrets.LEETCODE_SESSION }}
           destination-folder: my-folder
           
-      - name:  Generate Sorted README
-        run: 
-          ls -1t my-folder > sorted_files.txt
+      - name: Generate Sorted README
+        run: |
           echo "# LeetCode Solutions" > README.md
-          while IFS= read -r file; do
+          for file in $(ls -1t my-folder); do
             echo "- [$file](my-folder/$file)" >> README.md
-          done < sorted_files.txt
+          done
+          
       - name: Commit and Push
         run: |
           git config --global user.name 'github-actions[bot]'
