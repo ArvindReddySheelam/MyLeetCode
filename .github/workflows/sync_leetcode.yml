@@ -12,11 +12,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+ 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-
+        
+      - name:  Generate Sorted README
+        run: 
+          ls -1t my-folder > sorted_files.txt
+          echo "# LeetCode Solutions" > README.md
+          while IFS= read -r file; do
+            echo "- [$file](my-folder/$file)" >> README.md
+          done < sorted_files.txt
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add README.md
+          git commit -m "Update README with sorted files"
+          git push
+   
       - name: Sync Leetcode
         uses: joshcai/leetcode-sync@v1.5
         with:
