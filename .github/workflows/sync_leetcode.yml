@@ -28,14 +28,21 @@ jobs:
       - name: Generate Sorted README
         run: |
           echo "# LeetCode Solutions" > README.md
-          for file in $(ls -1t my-folder); do
-            echo "- [$file](my-folder/$file)" >> README.md
-          done
+          if [ -d "my-folder" ] && [ "$(ls -A my-folder)" ]; then
+            for file in $(ls -1t my-folder); do
+              echo "- [$file](my-folder/$file)" >> README.md
+            done
+          else
+            echo "No solutions found." >> README.md
+          fi
           
       - name: Commit and Push
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add README.md
-          git commit -m "Update README with sorted files"
-          git push
+          if ! git diff --cached --quiet; then
+            git commit -m "Update README with sorted files"
+            git push
+          else
+            echo "No changes to commit."
