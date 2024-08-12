@@ -35,16 +35,18 @@ jobs:
           fi
           
       - name: Check for changes
-        run: |
-          if ! git diff --quiet; then
-            echo "Changes detected, proceeding to commit."
-            touch .changes_detected
-          else
-            echo "No changes detected."
         id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "No changes detected."
+            echo "changes_detected=false" >> $GITHUB_ENV
+          else
+            echo "Changes detected, proceeding to commit."
+            echo "changes_detected=true" >> $GITHUB_ENV
+          fi
 
       - name: Commit and Push if changes detected
-        if: steps.check_changes.outputs.changes_detected == 'true'
+        if: env.changes_detected == 'true'
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
