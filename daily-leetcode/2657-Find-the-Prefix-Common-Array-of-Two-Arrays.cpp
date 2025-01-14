@@ -7,7 +7,8 @@ public:
         int count = 0;
 
         std::vector<int> C;
-
+        C.reserve(A.size());
+        
         for(int i = 0; i<A.size(); i++){
             freq[A[i]]++;
             if(freq[A[i]] == 2) count++;
